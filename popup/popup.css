@@ -1,0 +1,22 @@
+body {
+  width: 380px;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+
+#headerRow {
+  margin-bottom: 8px;
+}
+.tabs button {
+  margin-right: 6px;
+  padding: 6px;
+}
+
+.tab {
+  margin-top: 8px;
+}
+
+#timerControls button {
+  margin-right: 6px;
+  padding: 4px 8px;
+}
