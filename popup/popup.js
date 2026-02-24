@@ -25,7 +25,7 @@ async function init() {
   document.getElementById("manualStart").onclick = manualStart;
   document.getElementById("manualStop").onclick = manualStop;
 
-  document.querySelectorAll(".tabs button").forEach((btn) => {
+  document.querySelectorAll(".tabButton").forEach((btn) => {
     btn.addEventListener("click", () => showTab(btn.dataset.tab));
   });
 
@@ -33,11 +33,11 @@ async function init() {
   const state = await chrome.storage.local.get(null);
 
   if (!state.profileData) {
-    document.getElementById("usernameSection").style.display = "block";
+    document.getElementById("usernameSection").style.display = "flex";
     document.getElementById("mainUI").style.display = "none";
   } else {
     document.getElementById("usernameSection").style.display = "none";
-    document.getElementById("mainUI").style.display = "block";
+    document.getElementById("mainUI").style.display = "flex";
     renderAll();
   }
 
@@ -55,7 +55,7 @@ async function init() {
   });
 
   // default tab
-  showTab("analysis");
+  showTab("profile");
   startTimerLoop();
 }
 
@@ -82,16 +82,25 @@ async function onSaveUser() {
         skillScore: defaultState.skillScore,
       });
       document.getElementById("usernameSection").style.display = "none";
-      document.getElementById("mainUI").style.display = "block";
+      document.getElementById("mainUI").style.display = "flex";
       renderAll();
     },
   );
 }
 
 function showTab(name) {
+  // Hide all tabs
   document.querySelectorAll(".tab").forEach((t) => (t.style.display = "none"));
+  // Remove active class from all tab buttons
+  document.querySelectorAll(".tabButton").forEach((btn) => {
+    btn.classList.remove("active");
+  });
+  // Show target tab
   const el = document.getElementById(name);
   if (el) el.style.display = "block";
+  // Add active class to clicked button
+  const activeBtn = document.querySelector(`.tabButton[data-tab="${name}"]`);
+  if (activeBtn) activeBtn.classList.add("active");
 }
 
 async function renderAll() {
@@ -109,7 +118,7 @@ async function renderHeader() {
   document.getElementById("skillValue").innerText = skill.toFixed(2);
 }
 
-// PROFILE tab
+// PROFILE tab (also update overview section)
 async function renderProfile() {
   const state = await chrome.storage.local.get(null);
   const profile = state.profileData;
@@ -131,19 +140,56 @@ async function renderProfile() {
   );
   const streakScore = computeStreakScore(streak);
 
-  document.getElementById("profile").innerHTML = `
-    <div style="display:flex;gap:12px;align-items:center">
-      <img src="${profile.profile.userAvatar}" width="60" height="60" style="border-radius:6px"/>
-      <div>
-        <div style="font-weight:bold">${profile.username}</div>
-        <div>Total solved: ${total}</div>
-        <div>Rating: ${profile.userContestRanking?.rating ?? "N/A"}</div>
+  // Update overview section
+  document.getElementById("overview").innerHTML = `
+    <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 12px;">
+      <img src="${profile.profile.userAvatar}" width="50" height="50" style="border-radius: 6px; flex-shrink: 0;"/>
+      <div style="flex: 1;">
+        <div style="font-weight: 700; font-size: 15px;">${profile.username}</div>
+        <div style="font-size: 12px; color: #666;">QUESTIONS SOLVED : ${total} &nbsp; CURRENT DSA RATING : ${ratioScore}</div>
       </div>
     </div>
+  `;
+
+  // Profile content
+  document.getElementById("profile").innerHTML = `
+    <div style="margin-bottom: 20px;">
+      <div class="cardTitle">USERNAME</div>
+      <div style="padding: 12px; background-color: white; border-radius: 4px; font-weight: 500;">${profile.username}</div>
+    </div>
+    
     <hr/>
-    <div>E-M-H Score: ${ratioScore}/10</div>
-    <div>Contest Score: ${contestScore}/10</div>
-    <div>Streak Score: ${streakScore}/10</div>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0;">
+      <div class="profileCard" style="border: none; margin: 0;">
+        <div class="cardTitle">QUESTIONS SOLVED</div>
+        <div class="cardValue">${total}</div>
+      </div>
+      <div class="profileCard" style="border: none; margin: 0;">
+        <div class="cardTitle">CURRENT DSA RATING</div>
+        <div class="cardValue">${ratioScore}</div>
+      </div>
+      <div class="profileCard" style="border: none; margin: 0;">
+        <div class="cardTitle">ACTIVE DAYS ON LC</div>
+        <div class="cardValue">${streak}</div>
+      </div>
+    </div>
+    
+    <hr/>
+    
+    <div class="sectionTitle">Score Breakdown</div>
+    <div class="profileCard" style="border: none; margin: 8px 0;">
+      <div class="cardTitle">E-M-H RATIO</div>
+      <div class="cardValue">${ratioScore}</div>
+    </div>
+    <div class="profileCard" style="border: none; margin: 8px 0;">
+      <div class="cardTitle">CONTEST SCORE</div>
+      <div class="cardValue">${contestScore}</div>
+    </div>
+    <div class="profileCard" style="border: none; margin: 8px 0;">
+      <div class="cardTitle">STREAK</div>
+      <div class="cardValue">${streakScore}</div>
+    </div>
   `;
 }
 
@@ -181,28 +227,61 @@ async function renderTopics() {
     else avg.push({ topic, data });
   });
 
+  const strongHtml = strong.length
+    ? strong
+        .map(
+          (s) =>
+            `<div class="topicItem">${s.topic} — <strong>${(s.data.strengthScore || 0).toFixed(2)}</strong></div>`,
+        )
+        .join("")
+    : '<div class="topicItem" style="color: #999;">No strong topics yet</div>';
+
+  const avgHtml = avg.length
+    ? avg
+        .map(
+          (s) =>
+            `<div class="topicItem">${s.topic} — <strong>${(s.data.strengthScore || 0).toFixed(2)}</strong></div>`,
+        )
+        .join("")
+    : '<div class="topicItem" style="color: #999;">No average topics</div>';
+
+  const weakHtml = weak.length
+    ? weak
+        .map(
+          (s) =>
+            `<div class="topicItem">${s.topic} — <strong>${(s.data.strengthScore || 0).toFixed(2)}</strong></div>`,
+        )
+        .join("")
+    : '<div class="topicItem" style="color: #999;">No weak topics yet</div>';
+
+  const goalsHtml = goals.length
+    ? goals.map((g) => `<div class="topicItem">${g}</div>`).join("")
+    : '<div class="topicItem" style="color: #999;">No goals set yet</div>';
+
   document.getElementById("topics").innerHTML = `
-    <div style="display:flex;gap:12px">
-      <div style="flex:1">
-        <h4>Strong</h4>
-        ${strong.map((s) => `<div>${s.topic} — score:${(s.data.strengthScore || 0).toFixed(2)}</div>`).join("")}
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+      <div>
+        <div class="sectionTitle">STRONG</div>
+        <div class="topicsList">
+          ${strongHtml}
+        </div>
       </div>
-      <div style="flex:1">
-        <h4>Average</h4>
-        ${avg.map((s) => `<div>${s.topic} — score:${(s.data.strengthScore || 0).toFixed(2)}</div>`).join("")}
-      </div>
-      <div style="flex:1">
-        <h4>Weak</h4>
-        ${weak.map((s) => `<div>${s.topic} — score:${(s.data.strengthScore || 0).toFixed(2)}</div>`).join("")}
+      <div>
+        <div class="sectionTitle">WEAK</div>
+        <div class="topicsList">
+          ${weakHtml}
+        </div>
       </div>
     </div>
+    
     <hr/>
+    
+    <div class="sectionTitle">ENTER YOUR TARGET TOPIC</div>
     <div>
-      <h4>Goals</h4>
-      ${goals.map((g) => `<div>${g}</div>`).join("")}
-      <input id="goalInput" placeholder="Add goal (topic)"/>
-      <button id="addGoalBtn">Add</button>
+      ${goalsHtml}
     </div>
+    <input id="goalInput" class="goalInput" placeholder="Add a goal (topic)" />
+    <button id="addGoalBtn" class="addGoalBtn">Add Goal</button>
   `;
 
   // attach add button
@@ -224,19 +303,24 @@ async function renderSuggestions() {
   const suggestions = state.suggestions || [];
   if (!suggestions.length) {
     document.getElementById("suggestions").innerHTML =
-      "<p>No suggestions yet</p>";
+      '<div style="padding: 20px; text-align: center; color: #666;">No suggestions yet. Set some goals or solve more problems!</div>';
     return;
   }
-  document.getElementById("suggestions").innerHTML = suggestions
-    .map(
-      (s) => `
-    <div style="margin-bottom:8px;padding:6px;border:1px solid #eee;border-radius:4px">
-      <div><a href="${s.url}" target="_blank">${s.title}</a></div>
-      <div style="font-size:12px;color:#666">${s.reason || ""}</div>
+  document.getElementById("suggestions").innerHTML = `
+    <div style="margin-bottom: 8px;">
+      <div class="sectionTitle">TOPICS YOU MUST FOCUS :-)</div>
     </div>
-  `,
-    )
-    .join("");
+    ${suggestions
+      .map(
+        (s) => `
+      <div class="suggestionItem">
+        <div class="suggestionTitle"><a href="${s.url}" target="_blank" class="suggestionLink">${s.title}</a></div>
+        <div class="suggestionReason">${s.reason || ""}</div>
+      </div>
+    `,
+      )
+      .join("")}
+  `;
 }
 
 // ANALYSIS tab — three charts

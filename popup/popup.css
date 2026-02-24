@@ -1,22 +1,392 @@
-body {
-  width: 380px;
-  font-family: Arial, sans-serif;
-  padding: 10px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#headerRow {
-  margin-bottom: 8px;
+body {
+  width: 420px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0;
+  background-color: #f8f9fa;
+  color: #333;
 }
-.tabs button {
-  margin-right: 6px;
-  padding: 6px;
+
+.screen {
+  padding: 20px;
+}
+
+/* ===== LOGIN SCREEN ===== */
+#usernameSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+  gap: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+}
+
+#appTitle {
+  font-size: 48px;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.subtitleText {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 30px;
+}
+
+.inputGroup {
+  width: 100%;
+  max-width: 300px;
+}
+
+.textInput {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 14px;
+  border: 2px solid white;
+  border-radius: 6px;
+  background-color: white;
+  color: #333;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.textInput:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.textInput::placeholder {
+  color: #999;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.buttonSubmit,
+.buttonClear {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.buttonSubmit {
+  background-color: white;
+  color: #667eea;
+}
+
+.buttonSubmit:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.buttonClear {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+}
+
+.buttonClear:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.errorText {
+  color: #ff6b6b;
+  font-weight: 600;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ===== MAIN SCREEN ===== */
+#mainUI {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerBar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 16px 20px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.appBrand {
+  margin-bottom: 6px;
+}
+
+.appTitle {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.subtitleBar {
+  font-size: 13px;
+  opacity: 0.95;
+  letter-spacing: 0.5px;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background-color: white;
+  border-bottom: 1px solid #e8eef5;
+  gap: 20px;
+}
+
+.skillDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skillLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.skillValue {
+  font-size: 24px;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.timerSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.timerDisplay {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  white-space: nowrap;
+}
+
+.timerButtonGroup {
+  display: flex;
+  gap: 6px;
+}
+
+.timerBtn {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timerBtn:hover {
+  background-color: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+/* ===== TABS ===== */
+.tabsHeader {
+  display: flex;
+  background-color: white;
+  border-bottom: 3px solid #e8eef5;
+  gap: 0;
+}
+
+.tabButton {
+  flex: 1;
+  padding: 14px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  background-color: transparent;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  text-align: center;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.tabButton:hover {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.tabButton.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  background-color: #f8f9fa;
+}
+
+.overviewSection {
+  padding: 16px 20px;
+  background-color: white;
+  border-bottom: 2px solid #e8eef5;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
 }
 
 .tab {
+  padding: 20px;
+  background-color: white;
+  min-height: 300px;
+}
+
+/* ===== CONTENT CARDS ===== */
+.profileCard {
+  margin-bottom: 16px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #667eea;
+}
+
+.cardTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.cardValue {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  margin-top: 16px;
+  letter-spacing: 0.8px;
+}
+
+.topicsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topicItem {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #555;
+}
+
+.suggestionItem {
+  margin-bottom: 12px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+}
+
+.suggestionTitle {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.suggestionReason {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.suggestionLink {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.suggestionLink:hover {
+  text-decoration: underline;
+}
+
+/* ===== UTILITY ===== */
+hr {
+  margin: 12px 0;
+  border: none;
+  border-top: 1px solid #e8eef5;
+}
+
+input[type="text"].goalInput {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   margin-top: 8px;
 }
 
-#timerControls button {
-  margin-right: 6px;
-  padding: 4px 8px;
+button.addGoalBtn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  transition: all 0.3s ease;
+}
+
+button.addGoalBtn:hover {
+  background-color: #764ba2;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-height: 700px) {
+  .tab {
+    min-height: auto;
+  }
 }

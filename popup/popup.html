@@ -2,48 +2,74 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>LeetTrack Pro</title>
+  <title>LeetTracker</title>
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
-  <div id="usernameSection">
-    <input id="usernameInput" placeholder="Enter LeetCode username" />
-    <button id="saveUser">Submit</button>
-    <div id="error" style="color:crimson;margin-top:6px"></div>
+  <!-- Login Section -->
+  <div id="usernameSection" class="screen">
+    <h1 id="appTitle">LEETTRACK</h1>
+    <p class="subtitleText">Track your Leetcode journey</p>
+    
+    <div class="inputGroup">
+      <input id="usernameInput" class="textInput" placeholder="ENTER LEETCODE USER NAME" />
+    </div>
+    
+    <div class="buttonGroup">
+      <button id="saveUser" class="buttonSubmit">SUBMIT</button>
+      <button class="buttonClear">CLEAR</button>
+    </div>
+    
+    <div id="error" class="errorText"></div>
   </div>
 
-  <div id="mainUI" style="display:none;">
-    <div id="headerRow" style="display:flex;gap:12px;align-items:center;">
-      <div id="skillSummary">
-        Skill: <span id="skillValue">--</span>
+  <!-- Main UI Section -->
+  <div id="mainUI" class="screen" style="display:none;">
+    <!-- Header Bar -->
+    <div class="headerBar">
+      <div class="appBrand">
+        <h1 class="appTitle">LEETTRACK</h1>
       </div>
-      <div id="timerArea">
-        <div id="timerDisplay">—</div>
-        <div id="timerControls">
-          <button id="manualStart">Start</button>
-          <button id="manualStop">Stop</button>
+      <div class="subtitleBar">Track your Leetcode journey</div>
+    </div>
+
+    <!-- Skill & Timer Row -->
+    <div class="topBar">
+      <div class="skillDisplay">
+        <span class="skillLabel">Skill:</span>
+        <span id="skillValue" class="skillValue">--</span>
+      </div>
+      <div class="timerSection">
+        <div id="timerDisplay" class="timerDisplay">—</div>
+        <div class="timerButtonGroup">
+          <button id="manualStart" class="timerBtn">Start</button>
+          <button id="manualStop" class="timerBtn">Stop</button>
         </div>
       </div>
     </div>
 
-    <div class="tabs" style="margin-top:10px;">
-      <button data-tab="profile">Profile</button>
-      <button data-tab="topics">Topics</button>
-      <button data-tab="suggestions">Suggestions</button>
-      <button data-tab="analysis">Analysis</button>
+    <!-- Tabs Navigation -->
+    <div class="tabsHeader">
+      <button class="tabButton" data-tab="profile">PROFILE</button>
+      <button class="tabButton" data-tab="suggestions">SUGGESTION</button>
+      <button class="tabButton" data-tab="analysis">ANALYSIS</button>
+      <button class="tabButton" data-tab="topics">TOPICS</button>
     </div>
 
+    <!-- Overview Section -->
+    <div class="overviewSection" id="overview"></div>
+
+    <!-- Tab Contents -->
     <div id="profile" class="tab" style="display:none"></div>
-    <div id="topics" class="tab" style="display:none"></div>
     <div id="suggestions" class="tab" style="display:none"></div>
     <div id="analysis" class="tab" style="display:none">
-      <div style="font-weight:bold;margin-bottom:6px;">Analysis</div>
       <canvas id="skillChart" width="340" height="160"></canvas>
       <div style="height:10px"></div>
       <canvas id="effChart" width="340" height="120"></canvas>
       <div style="height:10px"></div>
       <canvas id="timeChart" width="340" height="120"></canvas>
     </div>
+    <div id="topics" class="tab" style="display:none"></div>
   </div>
 
   <script src="../libs/chart.js"></script>
