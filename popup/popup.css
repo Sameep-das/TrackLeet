@@ -8,7 +8,7 @@ body {
   width: 420px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 0;
-  background-color: #f8f9fa;
+  background-color: #c1ff72;
   color: #333;
 }
 
@@ -24,7 +24,7 @@ body {
   justify-content: center;
   min-height: 500px;
   gap: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2c8959 0%, #c1ff72 100%);
   padding: 40px 20px;
 }
 
@@ -127,7 +127,7 @@ body {
 }
 
 .headerBar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2c8959 0%, #c1ff72 100%);
   color: white;
   padding: 16px 20px;
   text-align: center;
@@ -155,7 +155,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 14px 20px;
-  background-color: white;
+  background-color: #c1ff72;
   border-bottom: 1px solid #e8eef5;
   gap: 20px;
 }

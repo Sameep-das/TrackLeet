@@ -51,7 +51,7 @@ export function generateSuggestions({
 
     return {
       title: `Practice: ${topic}`,
-      url: `https://leetcode.com/problemset/all/?search=${encodeURIComponent(topic)}`,
+      url: `https://leetcode.com/problem-list/?search=${topic}`,
       reason,
     };
   });

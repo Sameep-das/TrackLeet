@@ -146,19 +146,14 @@ async function renderProfile() {
       <img src="${profile.profile.userAvatar}" width="50" height="50" style="border-radius: 6px; flex-shrink: 0;"/>
       <div style="flex: 1;">
         <div style="font-weight: 700; font-size: 15px;">${profile.username}</div>
-        <div style="font-size: 12px; color: #666;">QUESTIONS SOLVED : ${total} &nbsp; CURRENT DSA RATING : ${ratioScore}</div>
+        <div style="font-size: 12px; color: #666; text-align:left;"><p>QUESTIONS SOLVED : ${total}</p> <p>CURRENT DSA RATING : ${ratioScore}</p> </div>
       </div>
     </div>
   `;
 
   // Profile content
   document.getElementById("profile").innerHTML = `
-    <div style="margin-bottom: 20px;">
-      <div class="cardTitle">USERNAME</div>
-      <div style="padding: 12px; background-color: white; border-radius: 4px; font-weight: 500;">${profile.username}</div>
-    </div>
-    
-    <hr/>
+  <hr/>
     
     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0;">
       <div class="profileCard" style="border: none; margin: 0;">
@@ -177,18 +172,19 @@ async function renderProfile() {
     
     <hr/>
     
-    <div class="sectionTitle">Score Breakdown</div>
-    <div class="profileCard" style="border: none; margin: 8px 0;">
-      <div class="cardTitle">E-M-H RATIO</div>
-      <div class="cardValue">${ratioScore}</div>
-    </div>
-    <div class="profileCard" style="border: none; margin: 8px 0;">
-      <div class="cardTitle">CONTEST SCORE</div>
-      <div class="cardValue">${contestScore}</div>
-    </div>
-    <div class="profileCard" style="border: none; margin: 8px 0;">
-      <div class="cardTitle">STREAK</div>
-      <div class="cardValue">${streakScore}</div>
+    <div class="sectionTitle" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0;">
+      <div class="profileCard" style="border: none; margin:0;">
+        <div class="cardTitle">E-M-H RATIO</div>
+        <div class="cardValue">${ratioScore}</div>
+      </div>
+      <div class="profileCard" style="border: none; margin: 0;">
+        <div class="cardTitle">CONTEST SCORE</div>
+        <div class="cardValue">${contestScore}</div>
+      </div>
+      <div class="profileCard" style="border: none; margin: 0;">
+        <div class="cardTitle">STREAK</div>
+        <div class="cardValue">${streakScore}</div>
+      </div>
     </div>
   `;
 }
